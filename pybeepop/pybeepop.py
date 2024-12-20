@@ -1,18 +1,17 @@
 """
-pybeepop - BeePop+ Wrapper for Python
-code by Jeff Minucci
-7/10/24
+pybeepop - BeePop+ interface for Python
 """
 
 import os
 import platform
 import pandas as pd
 from .tools import BeePopModel
+from .plots import plot_timeseries
 import json
 
 
 class PyBeePop:
-    """Wrapper for the BeePop+ honey bee colony simulation model"""
+    """Python interface for the BeePop+ honey bee colony simulation model"""
 
     def __init__(
         self,
@@ -184,14 +183,52 @@ class PyBeePop:
             format (str, optional): Return results as DataFrame ('DataFrame') or
                 JSON string ('json')? Defaults to "DataFrame".
 
+        Raises:
+            RuntimeError: If there is no output because run_model has not yet been called.
+
         Returns:
             DataFrame or json str: A DataFrame or JSON string of the model results for the BeePop+ run.
         """
+        if self.output is None:
+            raise RuntimeError("There are no results to plot. Please run the model first.")
         if format == "json":
             result = json.dumps(self.output.to_dict(orient="list"))
         else:
             result = self.output
         return result
+
+    def plot_output(
+        self,
+        columns=[
+            "Colony Size",
+            "Adult Workers",
+            "Capped Worker Brood",
+            "Worker Larvae",
+            "Worker Eggs",
+        ],
+    ):
+        """Plot the output as a time series.
+
+        Args:
+            columns (list, optional): List of column names to plot (as strings). Defaults to ["Colony Size", "Adult Workers", "Capped Worker Brood", "Worker Larvae", "Worker Eggs"].
+
+        Raises:
+            RuntimeError: If there is no output because run_model has not yet been called.
+
+        Returns:
+            Matplotlib Axes: A Matploitlib Axes object for further customization.
+        """
+        if self.output is None:
+            raise RuntimeError("There are no results to plot. Please run the model first.")
+        invalid_cols = [col not in self.output.columns for col in columns]
+        if any(invalid_cols):
+            raise IndexError(
+                "The column name {} is not a valid output column.".format(
+                    [i for (i, v) in zip(columns, invalid_cols) if v]
+                )
+            )
+        plot = plot_timeseries(output=self.output, columns=columns)
+        return plot
 
     def get_error_log(self):
         """Return the BeePop+ session error log as a string for debugging."""
