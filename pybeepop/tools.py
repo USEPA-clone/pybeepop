@@ -1,8 +1,6 @@
-##
-# BeePop+ Wrapper Tools for Python - linux version
-# code by Jeff Minucci
-# 5/2022
-##
+"""
+pybeepop+ Tool and Utility Functions
+"""
 
 import os
 import io
