@@ -1,5 +1,5 @@
 # pybeepop+ :honeybee:
-Python-based wrapper for the USDA/EPA's honey bee colony model **BeePop+**.
+Python-based interface for the USDA/EPA's honey bee colony model **BeePop+**.
 
 For more information about **BeePop+** see [Garber *et al.* 2022](https://doi.org/10.3390/ecologies3030022).
 
@@ -17,14 +17,15 @@ Developed by: Jeffrey Minucci
 ## Requirements
 
 * Supported platforms: 
-    * Windows 64-bit (x64)
-    * Linux
+    * Windows 64-bit
+    * Linux 64-bit
 * For **Windows**: [Microsoft Visual C++ Redistributable 2015-2022](https://www.microsoft.com/en-us/download/details.aspx?id=48145)
 * For **Linux**, the bundled BeePop+ library was compiled for the **manylinux/musllinux** standards (musllinux via wheel only). 
 If you encounter errors loading the library, you can try compiling BeePop+ yourself from source. Instructions for compiling BeePop+
 for Linux are [below](#compiling-beepop-on-linux). Source code is available on [the project's GitHub page](https://github.com/quanted/vpoplib).
 * Python version 3.8 or above.
-* pandas installed in your Python environment.
+* pandas > 2.0.0
+* matplotlib > 3.1.0
 
 
 ## Quick Start Guide
@@ -113,6 +114,14 @@ for Linux are [below](#compiling-beepop-on-linux). Source code is available on [
         my_parameters = beepop.get_parameters()
         print(my_parameters)
 
+10. To plot the last output as a time series:
+
+        ax = beepop.plot_output()  # default columns
+
+        cols_to_plot = ["Dead Worker Adults", "Dead Foragers"]
+        ax = beepop.plot_output(cols_to_plot)  # custom columns
+
+
 ## Example notebook
 
 A Jupyter notebook with a working example of using `pybeepop+` is available [here](https://github.com/USEPA/pybeepop/blob/main/pybeepop_example.ipynb).
@@ -128,7 +137,7 @@ Documentation of the pybeepop+ API can be found at: https://usepa.github.io/pybe
 
 ### Requirements for compilation
 * cmake > 3.2
-* gcc and g++ compilers
+* gcc or g++ 
 
 ### Compiling BeePop+ from source on Linux
 

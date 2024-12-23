@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "pybeepop-plus"
-version = "0.1.1"
-description = "EPA's Python wrapper for the EPA/USDA honey bee colony model BeePop+"
+version = "0.1.2"
+description = "EPA's Python interface for the EPA/USDA honey bee colony model BeePop+"
 authors = ["Jeffrey Minucci <minucci.jeffrey@epa.gov>"]
 maintainers = ["Jeffrey Minucci <minucci.jeffrey@epa.gov>"]
 license = "MIT"
@@ -22,6 +22,7 @@ classifiers = [
 [tool.poetry.dependencies]
 python = "^3.8.0"
 pandas = "^2.0.0"
+matplotlib = "^3.1.0"
 
 [build-system]
 requires = ["poetry-core", "setuptools"]
